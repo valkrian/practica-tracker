@@ -72,3 +72,13 @@ def load_challenges_csv(path: str | Path) -> List[Challenge]:
     with Path(path).open("r", newline="", encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
         return [Challenge.from_dict(row) for row in reader]
+    
+    
+def create_challenge_today(description: str, status: str = status_pendant) -> Challenge:
+    """create a new challenge with today's date"""
+    
+    return Challenge(
+        date=date.today(),
+        description=description,
+        status=status,
+    )

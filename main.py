@@ -2,6 +2,7 @@ from datetime import date
 from pathlib import Path
 from challenge import (
     Challenge,
+    create_challenge_today,
     load_challenges_csv,
     load_challenges_json,
     save_challenges_csv,
@@ -25,19 +26,15 @@ def main():
         print("can't find the last file, starting a new challenge")
         challenges = []
     
-    #create a new challenge if we want to
-    today = date.today()
     #ask the user for a description
     description = input("today's challenge: ")
     if not description.strip(): #if blank, use description
             description = "realizar un commit util en github"
-    today_challenge = Challenge(
-        date=today,
-        description= description,
-    )
+    today_challenge = create_challenge_today(description)
+    
 
     #verifying if a challenge already exist
-    today_str = today.isoformat()
+    today_str = date.today().isoformat()
     existing_today = [c for c in challenges if c.date.isoformat() == today_str]
     
     if not existing_today:
