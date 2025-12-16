@@ -100,3 +100,9 @@ def display_challenge_sorted (challenges: List[Challenge]) -> None:
     print(f"total challenges: {len(sorted_challenges)}")
     for i, challenge in enumerate(sorted_challenges, 1):
         print(f"{i}, {challenge.date} - {challenge.description} [{challenge.status}]")
+        
+def filter_by_status (challenges: List[Challenge], status: str) -> List[Challenge]:
+    """returns challenges filtered by status."""
+    if status not in [status_pendant, status_completed]:
+        raise ValueError(f"status must be '{status_pendant}' or '{status_completed}'")
+    return [challenge for challenge in challenges if challenge.status == status]
