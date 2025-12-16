@@ -83,6 +83,20 @@ def create_challenge_today(description: str, status: str = status_pendant) -> Ch
         status=status,
     )
     
-def nark_challenge_completed (Challenge: Challenge) -> None:
+def mark_challenge_completed (challenge: Challenge) -> None:
     """Mark a challenge as completed."""
-    Challenge.complete_challenge()
+    challenge.complete_challenge()
+    
+def list_challenge_sorted (challenges: List[Challenge]) -> List[Challenge]:
+    """returns a list of challenges sorted by date."""
+    return sorted(challenges, key=lambda c: c.date)
+
+def display_challenge_sorted (challenges: List[Challenge]) -> None:
+    """Display all challenges sorted."""
+    sorted_challenges = list_challenge_sorted(challenges)
+    if not sorted_challenges:
+        print("No challenges found.")
+        return
+    print(f"total challenges: {len(sorted_challenges)}")
+    for i, challenge in enumerate(sorted_challenges, 1):
+        print(f"{i}, {challenge.date} - {challenge.description} [{challenge.status}]")

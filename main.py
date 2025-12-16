@@ -7,6 +7,7 @@ from challenge import (
     load_challenges_json,
     save_challenges_csv,
     save_challenges_json,
+    display_challenge_sorted,
 )
 
 
@@ -19,8 +20,7 @@ def main():
         print("file found, loading challenges...")
         challenges = load_challenges_json(json_path)
         print(f"loaded {len(challenges)} challenges from {json_path}")
-        for i, challenge in enumerate(challenges, 1):
-            print(f" {i}, {challenge}")
+        display_challenge_sorted(challenges)
         print()
     else:
         print("can't find the last file, starting a new challenge")
@@ -53,13 +53,13 @@ def main():
     # reload from file to verify reconstruction
     print(f"reconstructing challenges from json files: ")
     reloaded_json = load_challenges_json(json_path)
-    for challenge in reloaded_json:
-        print(f"{challenge}")
+    display_challenge_sorted(reloaded_json)
         
     print("reconstructing challenges from CSV files")
     reloaded_csv = load_challenges_csv("challenges.csv")
-    for challenge in reloaded_csv:
-        print(f"{challenge}")
+    display_challenge_sorted(reloaded_csv)
+        
+    
 
 
 if __name__ == "__main__":
