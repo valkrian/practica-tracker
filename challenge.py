@@ -82,3 +82,7 @@ def create_challenge_today(description: str, status: str = status_pendant) -> Ch
         description=description,
         status=status,
     )
+    
+def nark_challenge_completed (Challenge: Challenge) -> None:
+    """Mark a challenge as completed."""
+    Challenge.complete_challenge()
