@@ -13,5 +13,10 @@
     "date": "2025-12-15",
     "description": "completado desafio de hoy",
     "status": "completed"
+  },
+  {
+    "date": "2025-12-16",
+    "description": "agregado un helper para limpar el codigo",
+    "status": "completed"
   }
 ]

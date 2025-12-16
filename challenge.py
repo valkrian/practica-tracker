@@ -7,6 +7,9 @@ from typing import Iterable, List
 status_pendant = "pending"
 status_completed = "completed"
 
+#helpers
+CSV_FIELDS = ["date", "description", "status"]
+VALID_STATUSES = {status_pendant, status_completed}
 
 class Challenge:
     def __init__(self, date: date, description: str, status: str = status_pendant):
@@ -60,9 +63,9 @@ def load_challenges_json(path: str | Path) -> List[Challenge]:
 
 """ those two csv use dicwriter as a fixed header with date, description and status"""
 def save_challenges_csv(path: str | Path, challenges: Iterable[Challenge]) -> None:
-    fieldnames = ["date", "description", "status"]
+    
     with Path(path).open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=CSV_FIELDS)
         writer.writeheader()
         for challenge in challenges:
             writer.writerow(challenge.to_dict())
@@ -91,18 +94,26 @@ def list_challenge_sorted (challenges: List[Challenge]) -> List[Challenge]:
     """returns a list of challenges sorted by date."""
     return sorted(challenges, key=lambda c: c.date)
 
-def display_challenge_sorted (challenges: List[Challenge]) -> None:
-    """Display all challenges sorted."""
-    sorted_challenges = list_challenge_sorted(challenges)
-    if not sorted_challenges:
+def format_challenge(challenge: Challenge, index: int) -> str:
+    """returns a legible line for a challenge"""
+    return f"{index},{challenge.date} - {challenge.description} [{challenge.status}]"
+
+def print_challenges(challenges: List[Challenge], status: str | None = None) -> None:
+    """shows challenges ordered. optionally i can filter by status"""
+    if status:
+        if status not in VALID_STATUSES:
+            raise ValueError(f"status must be one of {VALID_STATUSES}")
+        challenges = [c for c in challenges if c.status == status]
+    challenges = sorted(challenges, key=lambda c: c.date)
+    if not challenges:
         print("No challenges found.")
         return
-    print(f"total challenges: {len(sorted_challenges)}")
-    for i, challenge in enumerate(sorted_challenges, 1):
-        print(f"{i}, {challenge.date} - {challenge.description} [{challenge.status}]")
-        
+    print(f"total challenges: {len(challenges)}")
+    for i, challenge in enumerate(challenges, 1):
+        print(format_challenge(challenge, i))
+
 def filter_by_status (challenges: List[Challenge], status: str) -> List[Challenge]:
     """returns challenges filtered by status."""
-    if status not in [status_pendant, status_completed]:
-        raise ValueError(f"status must be '{status_pendant}' or '{status_completed}'")
+    if status not in VALID_STATUSES:
+        raise ValueError(f"status must be one of {VALID_STATUSES}")
     return [challenge for challenge in challenges if challenge.status == status]

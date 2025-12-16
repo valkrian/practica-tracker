@@ -7,7 +7,9 @@ from challenge import (
     load_challenges_json,
     save_challenges_csv,
     save_challenges_json,
-    display_challenge_sorted,
+    print_challenges,
+    status_completed,
+    status_pendant,
 )
 
 
@@ -20,7 +22,11 @@ def main():
         print("file found, loading challenges...")
         challenges = load_challenges_json(json_path)
         print(f"loaded {len(challenges)} challenges from {json_path}")
-        display_challenge_sorted(challenges)
+        print_challenges(challenges)
+        print("-completed challenges-")
+        print_challenges(challenges, status_completed)
+        print("-pending chalenges-")
+        print_challenges(challenges, status_pendant)
         print()
     else:
         print("can't find the last file, starting a new challenge")
@@ -45,7 +51,7 @@ def main():
     else:
         print("challenge already exists, using the existing")
     
-    #save all the challenges (including the new ones)
+    #save all the challenges
     save_challenges_json(json_path, challenges)
     save_challenges_csv("challenges.csv", challenges)
     print(f"saved {len(challenges)} challenges in database")
@@ -53,11 +59,15 @@ def main():
     # reload from file to verify reconstruction
     print(f"reconstructing challenges from json files: ")
     reloaded_json = load_challenges_json(json_path)
-    display_challenge_sorted(reloaded_json)
+    print_challenges(reloaded_json)
+    print_challenges(reloaded_json, status_pendant)
+    print_challenges(reloaded_json, status_completed)
         
     print("reconstructing challenges from CSV files")
     reloaded_csv = load_challenges_csv("challenges.csv")
-    display_challenge_sorted(reloaded_csv)
+    print_challenges(reloaded_csv)
+    print_challenges(reloaded_csv, status_pendant)
+    print_challenges(reloaded_csv, status_completed)
         
     
 
