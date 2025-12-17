@@ -8,8 +8,9 @@ status_pendant = "pending"
 status_completed = "completed"
 
 #helpers
-CSV_FIELDS = ["date", "description", "status"]
-VALID_STATUSES = {status_pendant, status_completed}
+CSV_FIELDS = ["date", "description", "status"] 
+VALID_STATUSES = {status_pendant, status_completed} #helper for status
+
 
 class Challenge:
     def __init__(self, date: date, description: str, status: str = status_pendant):
@@ -69,12 +70,20 @@ def save_challenges_csv(path: str | Path, challenges: Iterable[Challenge]) -> No
         writer.writeheader()
         for challenge in challenges:
             writer.writerow(challenge.to_dict())
-
+            
 
 def load_challenges_csv(path: str | Path) -> List[Challenge]:
     with Path(path).open("r", newline="", encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
         return [Challenge.from_dict(row) for row in reader]
+    
+def get_challenge_by_date(challenges: List[Challenge], target_date: date) -> Challenge | None:
+    """Find and returns a challenge by date. Returns None if not found."""
+    for challenge in challenges:
+        if challenge.date == target_date: #reminder: more eficient this way instead of converting it to string
+            return challenge
+    return None
+
     
     
 def create_challenge_today(description: str, status: str = status_pendant) -> Challenge:
@@ -117,3 +126,4 @@ def filter_by_status (challenges: List[Challenge], status: str) -> List[Challeng
     if status not in VALID_STATUSES:
         raise ValueError(f"status must be one of {VALID_STATUSES}")
     return [challenge for challenge in challenges if challenge.status == status]
+

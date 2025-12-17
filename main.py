@@ -10,6 +10,7 @@ from challenge import (
     print_challenges,
     status_completed,
     status_pendant,
+    get_challenge_by_date,
 )
 
 
@@ -40,10 +41,10 @@ def main():
     
 
     #verifying if a challenge already exist
-    today_str = date.today().isoformat()
-    existing_today = [c for c in challenges if c.date.isoformat() == today_str]
     
-    if not existing_today:
+    existing_today = get_challenge_by_date(challenges, date.today())
+    
+    if existing_today is None:
         print("adding new challenge: ")
         print(f"{today_challenge}")
         today_challenge.complete_challenge()
