@@ -1,13 +1,5 @@
 """Practica tracker package exports.
 
-High-level UML (ASCII):
-
-    +-------------------+       +----------------+
-    |    Challenge      |       |     Entry      |
-    | - date            |<>-----| - id           |
-    | - description     |       | - date         |
-    | - status          |       | - description  |
-    +-------------------+       +----------------+
 
     Challenge helpers  ->  persistence (store)  ->  Flask app / CLI
 

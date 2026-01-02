@@ -1,13 +1,5 @@
 """Challenge domain model and (de)serialization helpers.
 
-UML (excerpt):
-
-    +-------------------+
-    |    Challenge      |
-    | - date            |
-    | - description     |
-    | - status          |
-    +-------------------+
 
 Responsibilities:
 - Represent a daily challenge entry

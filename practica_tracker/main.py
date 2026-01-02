@@ -1,6 +1,6 @@
 """CLI for practica-tracker.
 
-Commands (UML-like):
+Commands:
 
     practica-tracker list [--status pending|completed]
     practica-tracker add <description> [--complete]

@@ -1,13 +1,5 @@
 """Storage helpers for practica-tracker.
 
-UML (excerpt):
-
-    +--------+         +----------------+
-    |  Entry |         |   CSV / XLSX   |
-    | - id   |  ---->  | rows (persistence)
-    | - date |
-    | - desc |
-    +--------+
 
 Responsibilities:
 - `Entry` dataclass represents a practice entry
